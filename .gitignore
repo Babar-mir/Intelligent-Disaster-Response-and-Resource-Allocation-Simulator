@@ -1,0 +1,23 @@
+
+# Executables
+*.exe
+*.out
+
+# Object files
+*.o
+*.obj
+
+# Debug files
+*.pdb
+*.ilk
+
+# VS Code
+.vscode/
+
+# Temporary test data
+test_data/
+data_test/
+
+# OS-generated files
+.DS_Store
+Thumbs.db

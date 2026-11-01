@@ -1,0 +1,3 @@
+unitID,unitType,locationID,availability,capabilities
+1,Ambulance,2,Available,WaterRescue|FirstAid|Boat
+2,Ambulance,4,Available,WaterRescue|FirstAid|Boat

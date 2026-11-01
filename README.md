@@ -1,359 +1,243 @@
-# Intelligent Disaster Response & Resource Allocation Simulator
+# Intelligent Disaster Response and Resource Allocation Simulator (IDRRAS)
 
-> A C++-based object-oriented simulation system for managing emergency response resources during multiple disasters.
+A C++17 console-based disaster management simulator that allocates emergency response units to incidents based on severity, affected population, unit availability, capability compatibility, and shortest travel distance.
 
-## Overview
+## 1. Problem Statement
 
-The **Intelligent Disaster Response & Resource Allocation Simulator** models a disaster-response environment in which multiple emergencies may occur across different locations while emergency resources are limited.
+During disasters such as floods, fires, and medical emergencies, response resources must be allocated efficiently. Assigning an inappropriate or distant response unit can delay emergency assistance.
 
-The system simulates how ambulances, fire trucks, and rescue teams are selected and dispatched based on factors such as **disaster severity, affected population, resource availability, and route distance**.
+IDRRAS simulates a disaster response management system that prioritizes incidents and assigns suitable response units using capability matching and Dijkstra's shortest-path algorithm.
 
-The project is designed as an **OOP-focused C++ application**, with algorithms and data structures integrated into the object-oriented design.
+## 2. Features
 
-## Objectives
+- Register and manage disaster incidents.
+- Register different response unit types:
+  - Ambulance
+  - FireTruck
+  - RescueTeam
+- Assign mandatory and optional capabilities to incidents and units.
+- Calculate incident priority using severity and affected population.
+- Allocate the nearest available and compatible response unit.
+- Calculate shortest routes using Dijkstra's algorithm.
+- Track assignment history and unit availability.
+- Complete assignments and update incident and unit states.
+- Store and retrieve application data using CSV files.
 
-- Model real-world disaster-response entities using C++ classes.
-- Demonstrate core Object-Oriented Programming concepts.
-- Allocate limited emergency resources efficiently.
-- Prioritize multiple simultaneous emergencies.
-- Find efficient routes between locations.
-- Simulate dynamic emergency events.
-- Generate response and resource-utilization reports.
+## 3. Technology Stack
 
-## Key Features
+- Language: C++17
+- Standard Library: STL
+- Data Structures: Vectors, unordered maps, priority queues
+- Algorithm: Dijkstra's shortest-path algorithm
+- Persistence: CSV file handling
+- Build: GCC / G++
 
-### Disaster Management
-- Create and manage different disaster events.
-- Store disaster type, severity, location, and affected population.
-- Track active, resolved, and pending emergencies.
-- Support multiple simultaneous disasters.
-
-### Emergency Response Units
-The simulator supports different types of response units:
-
-- Ambulance
-- Fire Truck
-- Rescue Team
-
-Each unit maintains information such as:
-
-- Unit ID
-- Current location
-- Availability
-- Unit type
-- Assignment status
-
-### Intelligent Resource Allocation
-Resources are allocated based on:
-
-- Disaster priority
-- Unit availability
-- Unit compatibility
-- Distance from the disaster
-- Number of affected people
-
-### Priority-Based Emergency Handling
-When several disasters occur, the system prioritizes emergencies according to their severity and impact.
-
-A priority queue can be used to ensure that critical emergencies are processed first.
-
-### Route Optimization
-Locations and roads are represented as a graph.
-
-**Dijkstra's algorithm** can be used to determine the shortest route between a response unit and a disaster location.
-
-### Dynamic Simulation
-The simulation can model events such as:
-
-- New disaster occurrence
-- Emergency completion
-- Response-unit recovery
-- Resource shortage
-- Road blockage
-- Higher-priority emergency
-- Resource reallocation
-
-### Reporting
-The system can generate statistics such as:
-
-- Total disasters
-- Resolved emergencies
-- Pending emergencies
-- Units dispatched
-- Average response time
-- Resource utilization
-
----
-
-## OOP Concepts Demonstrated
-
-The project is intentionally designed around C++ OOP principles.
-
-| Concept | Application |
-|---|---|
-| **Classes & Objects** | Disaster, Location, ResponseUnit, Dispatcher, etc. |
-| **Encapsulation** | Controlled access to object data |
-| **Inheritance** | Ambulance, FireTruck, and RescueTeam derived from ResponseUnit |
-| **Polymorphism** | Different response units implement common virtual operations |
-| **Abstraction** | Allocation and simulation logic exposed through high-level interfaces |
-| **Composition** | SimulationEngine contains and coordinates system components |
-| **Constructors / Destructors** | Object lifecycle management |
-| **Exception Handling** | Invalid input and invalid operations |
-| **STL** | `vector`, `priority_queue`, `unordered_map`, etc. |
-
-## System Architecture
+## 4. Project Structure
 
 ```text
-                         SimulationEngine
-                                |
-                ┌───────────────┴───────────────┐
-                |                               |
-           Dispatcher                    ResourceAllocator
-                |                               |
-                └───────────────┬───────────────┘
-                                |
-                         ResponseUnit
-                    ┌───────────┼───────────┐
-                    |           |           |
-                Ambulance   FireTruck   RescueTeam
-
-        Disaster          Location          RoadNetwork
-           |                  |                  |
-     ┌─────┼─────┐      ┌─────┼─────┐       Dijkstra
-     |     |     |      |     |     |
-   Fire  Flood  Earthquake  Hospital Shelter Zone
-```
-
-## Main Components
-
-### `Disaster`
-Represents an emergency event.
-
-Stores information such as:
-
-- Disaster ID
-- Disaster type
-- Location
-- Severity
-- Affected population
-- Current status
-
-### `Location`
-Represents a physical location in the simulated environment.
-
-### `ResponseUnit`
-Abstract/base class for emergency response units.
-
-Derived classes:
-
-- `Ambulance`
-- `FireTruck`
-- `RescueTeam`
-
-### `ResourceAllocator`
-Determines which available resources should be assigned to a disaster.
-
-### `Dispatcher`
-Handles the actual assignment and status changes of response units.
-
-### `RoadNetwork`
-Represents roads and connections between locations and provides route calculation.
-
-### `SimulationEngine`
-Coordinates disasters, resources, allocation, dispatching, and simulation events.
-
-### `ReportGenerator`
-Produces system statistics and performance reports.
-
----
-
-## Algorithms & Data Structures
-
-The project can integrate the following:
-
-- **Priority Queue** — emergency prioritization
-- **Graph** — road-network representation
-- **Dijkstra's Algorithm** — shortest-path calculation
-- **Vectors / Maps / Hash Maps** — object and resource storage
-- **Sorting and Searching** — resource selection and reporting
-
-## Example Workflow
-
-```text
-Disaster Detected
-       ↓
-Calculate Emergency Priority
-       ↓
-Determine Required Resources
-       ↓
-Find Available Compatible Units
-       ↓
-Calculate Efficient Routes
-       ↓
-Allocate Resources
-       ↓
-Dispatch Units
-       ↓
-Update Unit Status
-       ↓
-Resolve Emergency
-       ↓
-Generate Response Statistics
-```
-
-## Example Simulation
-
-```text
-========================================
-     DISASTER RESPONSE SIMULATOR
-========================================
-
-New Emergency
-Type              : Earthquake
-Location          : Zone C
-Severity          : 9/10
-Affected People   : 1200
-
-Required Resources:
-Ambulances        : 4
-Rescue Teams      : 3
-Fire Trucks       : 1
-
-Searching for available units...
-Calculating routes...
-Allocating resources...
-
-A04  -> Zone C
-A07  -> Zone C
-A11  -> Zone C
-R02  -> Zone C
-R05  -> Zone C
-R08  -> Zone C
-F03  -> Zone C
-
-Resources dispatched successfully.
-```
-
-## Project Structure
-
-```text
-disaster-response-simulator/
+IDRRAS/
+│
+├── data/
+│   ├── incidents.csv
+│   ├── response_units.csv
+│   └── assignments.csv
 │
 ├── include/
-│   ├── Disaster.h
-│   ├── Location.h
+│   ├── Incident.h
 │   ├── ResponseUnit.h
 │   ├── Ambulance.h
 │   ├── FireTruck.h
 │   ├── RescueTeam.h
-│   ├── ResourceAllocator.h
-│   ├── Dispatcher.h
+│   ├── Assignment.h
 │   ├── RoadNetwork.h
-│   ├── SimulationEngine.h
-│   └── ReportGenerator.h
+│   ├── ResourceAllocator.h
+│   └── FileManager.h
 │
 ├── src/
-│   ├── Disaster.cpp
-│   ├── Location.cpp
+│   ├── main.cpp
+│   ├── Incident.cpp
 │   ├── ResponseUnit.cpp
 │   ├── Ambulance.cpp
 │   ├── FireTruck.cpp
 │   ├── RescueTeam.cpp
-│   ├── ResourceAllocator.cpp
-│   ├── Dispatcher.cpp
+│   ├── Assignment.cpp
 │   ├── RoadNetwork.cpp
-│   ├── SimulationEngine.cpp
-│   └── ReportGenerator.cpp
-│
-├── data/
-│   └── sample_data.txt
+│   ├── ResourceAllocator.cpp
+│   └── FileManager.cpp
 │
 ├── tests/
-│   └── test_cases.cpp
+│   ├── test_incident.cpp
+│   ├── test_road_network.cpp
+│   ├── test_resource_allocator.cpp
+│   ├── test_persistence.cpp
+│   └── test_integration.cpp
 │
-├── main.cpp
-├── CMakeLists.txt
+├── .gitignore
 └── README.md
 ```
 
-## Technology Stack
+## 5. Object-Oriented Programming Concepts
 
-- **Language:** C++
-- **Standard:** C++17 / C++20
-- **Standard Library:** STL
-- **Build System:** CMake
-- **Version Control:** Git & GitHub
+### Encapsulation
 
-No external database or Python dependency is required for the core project.
+Classes maintain their data members privately and expose controlled access through public methods.
 
-## Getting Started
+Examples: `Incident`, `Assignment`, and `ResponseUnit`.
 
-### Prerequisites
+### Abstraction
 
-Install:
+`ResponseUnit` is an abstract base class that defines a common interface for all response units.
 
-- A C++17/C++20 compatible compiler
-- CMake
-- Git
+### Inheritance
 
-### Clone the Repository
+`Ambulance`, `FireTruck`, and `RescueTeam` inherit from `ResponseUnit`.
 
-```bash
-git clone <your-repository-url>
-cd disaster-response-simulator
+### Polymorphism
+
+Virtual functions such as `getUnitType()` and `canHandle()` allow different response unit types to provide their own implementations.
+
+The allocator works with base-class pointers instead of requiring separate allocation logic for each derived class.
+
+## 6. Core Algorithms
+
+### Incident Priority Calculation
+
+The priority score combines normalized severity and affected population:
+
+\[
+S = \frac{Severity-1}{4}\times100
+\]
+
+\[
+A = \min\left(\frac{Population}{1000}\times100,100\right)
+\]
+
+\[
+Priority = 0.5S + 0.5A
+\]
+
+Incidents are processed in descending priority order. Report time is used as a tie-breaker.
+
+### Capability Matching
+
+A response unit must satisfy all mandatory capabilities.
+
+For optional capabilities, at least 75% must match.
+
+### Resource Allocation
+
+For each pending incident:
+
+1. Identify available response units.
+2. Filter units using capability compatibility.
+3. Calculate shortest travel distances.
+4. Select the nearest suitable unit.
+5. Create an assignment.
+6. Mark the incident as assigned and the unit as busy.
+
+### Dijkstra's Algorithm
+
+The road network is represented using an adjacency list.
+
+Dijkstra's algorithm calculates the shortest distance between two locations using a minimum-priority queue.
+
+Time complexity with an adjacency list and binary heap:
+
+\[
+O((V+E)\log V)
+\]
+
+where \(V\) is the number of locations and \(E\) is the number of roads.
+
+## 7. Unit Lifecycle
+
+The response unit follows this lifecycle:
+
+```text
+Available
+    |
+    | Assignment
+    v
+Busy
+    |
+    | Assignment Completed
+    v
+Available
 ```
 
-### Build with CMake
+After completing an assignment, the unit becomes available again and its location is updated to the incident location.
+
+## 8. Data Persistence
+
+The application uses three CSV files:
+
+| File               | Stored information                          |
+| ------------------ | ------------------------------------------- |
+| incidents.csv      | Incident details and status                 |
+| response_units.csv | Unit details, capabilities and availability |
+| assignments.csv    | Assignment history and timestamps           |
+
+The `FileManager` class handles saving and loading application data.
+
+## 9. Compilation and Execution
+
+Requirements:
+
+- GCC or G++ compiler supporting C++17.
+- Windows, Linux, or another compatible environment.
+
+Compile from the project root:
 
 ```bash
-mkdir build
-cd build
-cmake ..
-cmake --build .
+g++ -std=c++17 -Iinclude src/main.cpp src/Incident.cpp src/ResponseUnit.cpp src/Ambulance.cpp src/FireTruck.cpp src/RescueTeam.cpp src/Assignment.cpp src/RoadNetwork.cpp src/ResourceAllocator.cpp src/FileManager.cpp -o simulator
 ```
 
-### Run
+On Windows PowerShell:
 
-On Linux/macOS:
+```powershell
+.\simulator.exe
+```
+
+## 10. Testing
+
+The project includes five test programs:
+
+| Test file                   | Purpose                            |
+| --------------------------- | ---------------------------------- |
+| test_incident.cpp           | Incident validation and priority   |
+| test_road_network.cpp       | Shortest paths and invalid roads   |
+| test_resource_allocator.cpp | Allocation logic and compatibility |
+| test_persistence.cpp        | CSV saving and loading             |
+| test_integration.cpp        | End-to-end system workflow         |
+
+Example compilation:
 
 ```bash
-./disaster_response_simulator
+g++ -std=c++17 -Iinclude tests/test_incident.cpp src/Incident.cpp -o test_incident
 ```
 
-On Windows:
+Each test program can be compiled and executed independently.
 
-```bash
-disaster_response_simulator.exe
-```
+## 11. Current Limitations
 
-## Future Enhancements
+- The road network is initialized with a fixed demonstration topology.
+- CSV parsing has limited support for complex quoted fields.
+- Saving multiple CSV files is not transactional.
+- Resource allocation uses a greedy nearest-compatible-unit strategy rather than a globally optimal assignment algorithm.
+- The application is console-based and does not provide a graphical interface.
+- The simulator does not incorporate live GPS, traffic conditions, or real-time disaster data.
 
-Possible extensions include:
+## 12. Future Improvements
 
-- Graphical user interface using Qt
-- Interactive map visualization
-- More sophisticated resource-allocation strategies
-- Weather and environmental events
-- Real-world geographic data
-- Multi-city simulation
-- Machine-learning-assisted resource allocation
-- Real-time emergency simulation
+- Dynamic road network management.
+- Real-time traffic and location integration.
+- More advanced multi-resource allocation algorithms.
+- Database integration.
+- Graphical dashboard for monitoring incidents and response units.
+- More comprehensive automated testing and error recovery.
 
-## Project Scope
+---
 
-This project is primarily intended to demonstrate:
-
-**Object-Oriented Programming + Data Structures + Algorithms + Simulation**
-
-The core implementation remains in C++ so that the OOP architecture and design decisions are clearly visible.
-
-## Author
-
-**Babar Mohiudin Mir**
-
-B.Tech Computer Science & Engineering  
-IIIT Bhubaneswar
-
-## License
-
-This project is developed as an academic project for educational purposes.
+**Project:** Intelligent Disaster Response and Resource Allocation Simulator  
+**Language:** C++17  
+**Category:** Object-Oriented Programming / Disaster Management Simulation

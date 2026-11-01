@@ -1,0 +1,4 @@
+incidentID,type,severity,affectedPopulation,locationID,status,reportTime,mandatoryCapabilities,optionalCapabilities
+1,earthquike,4,800,1,Pending,1793534059,rescue team,firstAid|ambulance
+2,flood,4,900,4,Pending,1793534138,waterRecue|Boat,firstAid
+3,Flood,4,500,4,Resolved,1793534574,WaterRescue|FirstAid,Boat
